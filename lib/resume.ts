@@ -1,0 +1,1 @@
+export const RESUME_HREF = "/My%20resume.pdf"

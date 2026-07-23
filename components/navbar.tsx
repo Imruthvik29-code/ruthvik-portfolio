@@ -1,15 +1,17 @@
 "use client"
 
+import Link from "next/link"
 import { useState } from "react"
 import { motion } from "motion/react"
 import { Menu, X, FileText } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
+import { RESUME_HREF } from "@/lib/resume"
 
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
-  { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
+  { label: "Capabilities", href: "#capabilities" },
   { label: "Contact", href: "#contact" },
 ]
 
@@ -21,7 +23,7 @@ export function Navbar() {
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-x-0 top-4 z-50 flex justify-center px-4"
+      className="fixed inset-x-0 top-3 z-50 flex justify-center px-4"
     >
       <nav
         aria-label="Primary"
@@ -76,13 +78,18 @@ export function Navbar() {
 
         {/* Resume + mobile toggle */}
         <div className="flex items-center gap-2">
-          <Button
-            size="sm"
-            className="group hidden rounded-xl font-medium transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/10 sm:inline-flex"
+          <Link
+            href={RESUME_HREF}
+            download
+            className={buttonVariants({
+              size: "sm",
+              className:
+                "group hidden rounded-xl font-medium transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/10 sm:inline-flex",
+            })}
           >
             <FileText className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5" aria-hidden="true" />
             Resume
-          </Button>
+          </Link>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -116,10 +123,18 @@ export function Navbar() {
               </li>
             ))}
           </ul>
-          <Button size="sm" className="mt-2 w-full rounded-xl font-medium">
+          <Link
+            href={RESUME_HREF}
+            download
+            onClick={() => setOpen(false)}
+            className={buttonVariants({
+              size: "sm",
+              className: "mt-2 w-full rounded-xl font-medium",
+            })}
+          >
             <FileText className="size-4" aria-hidden="true" />
             Resume
-          </Button>
+          </Link>
         </motion.div>
       )}
     </motion.header>

@@ -7,6 +7,8 @@ const SYSTEMS: Record<string, { name: string; domain: string }> = {
   "strabismus-detection": { name: "Strabismus Detection", domain: "Medical AI" },
   "microhabit-deviation": { name: "Microhabit Deviation System", domain: "Intelligent Systems" },
   "image-colorization": { name: "Image Colorization", domain: "Deep Learning" },
+  "intelligent-search-engine": { name: "Intelligent Search Engine", domain: "NLP" },
+  "ai-interview-assistant": { name: "AI Interview Assistant", domain: "Generative AI" },
 }
 
 export function generateStaticParams() {
@@ -29,7 +31,7 @@ export default async function SystemPage({
     <main className="relative min-h-screen overflow-hidden bg-background">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-accent/[0.07] blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/2 h-96 w-2xl -translate-x-1/2 rounded-full bg-accent/[0.07] blur-3xl"
       />
 
       <section className="relative mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-6 py-28">

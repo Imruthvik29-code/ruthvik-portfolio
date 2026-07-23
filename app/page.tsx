@@ -1,6 +1,10 @@
 import { Navbar } from "@/components/navbar"
 import { Hero } from "@/components/hero"
+import { EngineerBehind } from "@/components/engineer-behind"
+import { EngineeringJourney } from "@/components/engineering-journey"
+import { Capabilities } from "@/components/capabilities"
 import { Systems } from "@/components/systems"
+import { Contact } from "@/components/contact"
 
 export default function Page() {
   return (
@@ -20,12 +24,16 @@ export default function Page() {
       {/* Soft top glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-accent/[0.07] blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/2 h-96 w-2xl -translate-x-1/2 rounded-full bg-accent/[0.07] blur-3xl"
       />
 
       <Navbar />
       <Hero />
+      <EngineerBehind />
+      <EngineeringJourney />
       <Systems />
+      <Capabilities />
+      <Contact />
     </main>
   )
 }
