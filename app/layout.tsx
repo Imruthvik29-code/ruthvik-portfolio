@@ -1,16 +1,66 @@
-import { Analytics } from '@vercel/analytics/next'
-import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import './globals.css'
-
-const geistSans = Geist({ subsets: ['latin'], variable: '--font-geist-sans' })
-const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
-
 export const metadata: Metadata = {
-  title: 'Ruthvik Varma — AI Engineer',
+  title: {
+    default: 'Ruthvik Varma',
+    template: '%s | Ruthvik Varma',
+  },
+
   description:
-    'Data Science & AI undergraduate building practical intelligent systems across machine learning, deep learning, and generative AI.',
-  generator: 'v0.app',
+    'Final Year Data Science & AI student building intelligent systems across Computer Vision, Machine Learning, Deep Learning, and Generative AI.',
+
+  keywords: [
+    'Ruthvik Varma',
+    'AI Engineer',
+    'Machine Learning',
+    'Deep Learning',
+    'Computer Vision',
+    'Generative AI',
+    'LLM',
+    'Data Science',
+    'Portfolio',
+    'Next.js',
+  ],
+
+  authors: [
+    {
+      name: 'Ruthvik Varma',
+    },
+  ],
+
+  creator: 'Ruthvik Varma',
+
+  metadataBase: new URL('https://ruthvik-varma.vercel.app'),
+
+  openGraph: {
+    title: 'Ruthvik Varma',
+    description:
+      'Building Intelligent Systems with AI, Machine Learning, Computer Vision, and Generative AI.',
+    url: 'https://ruthvik-varma.vercel.app',
+    siteName: 'Ruthvik Varma',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Ruthvik Varma Portfolio',
+      },
+    ],
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ruthvik Varma',
+    description:
+      'Building Intelligent Systems with AI, Machine Learning, Computer Vision, and Generative AI.',
+    images: ['/og-image.png'],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+
   icons: {
     icon: [
       {
@@ -28,24 +78,4 @@ export const metadata: Metadata = {
     ],
     apple: '/apple-icon.png',
   },
-}
-
-export const viewport: Viewport = {
-  colorScheme: 'dark',
-  themeColor: '#0b0d10',
-}
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return (
-    <html lang="en" className={`bg-background ${geistSans.variable} ${geistMono.variable}`}>
-      <body className="font-sans antialiased">
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
-      </body>
-    </html>
-  )
 }
