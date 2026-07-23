@@ -31,16 +31,6 @@ const SYSTEMS: System[] = [
 		domain: "Deep Learning",
 		href: "/systems/image-colorization",
 	},
-	{
-		name: "Intelligent Search Engine",
-		domain: "NLP",
-		href: "/systems/intelligent-search-engine",
-	},
-	{
-		name: "AI Interview Assistant",
-		domain: "Generative AI",
-		href: "/systems/ai-interview-assistant",
-	},
 ]
 
 const container: Variants = {
