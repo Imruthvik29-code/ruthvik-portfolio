@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { motion, type Variants } from "motion/react"
+import { motion, useReducedMotion, type Variants } from "motion/react"
 
 const container: Variants = {
 	hidden: {},
@@ -30,40 +30,42 @@ const INFO_GROUPS = [
 		label: "Education",
 		items: [
 			"B.Tech",
-			"Data Science & AI",
+		"Data Science and AI",
 			"ICFAI Foundation for Higher Education",
-		],
+		"Graduated July 2026",
+	],
 	},
 	{
-		label: "Focus Areas",
+		label: "Areas of experience",
 		items: [
+			"AI & Data Science",
 			"Computer Vision",
-			"Machine Learning",
-			"Deep Learning",
-			"Generative AI",
+			"Data Analytics",
+			"Software Development",
 		],
 	},
 	{
-		label: "Currently",
+		label: "Interested in",
 		items: [
-			"Final Year Student",
-			"Building AI Systems",
-			"Open to Full-Time Opportunities",
+			"Building useful systems",
+			"Working across disciplines",
 		],
 	},
 ]
 
 export function EngineerBehind() {
+	const reduceMotion = useReducedMotion()
+
 	return (
 		<section
 			id="engineer-behind"
-			className="relative mx-auto max-w-6xl px-6 py-10 lg:py-12"
+			className="relative mx-auto max-w-6xl px-6 py-12 lg:py-14"
 		>
-			<div className="grid grid-cols-2 gap-8">
+			<div className="grid gap-8 lg:grid-cols-2">
 				{/* Left */}
 				<motion.div
 					variants={container}
-					initial="hidden"
+					initial={reduceMotion ? false : "hidden"}
 					whileInView="show"
 					viewport={{ once: true, margin: "-100px" }}
 				>
@@ -75,24 +77,23 @@ export function EngineerBehind() {
 							<div className="relative mx-auto h-40 w-40 overflow-hidden rounded-full border border-border/60">
 								<Image
 									src="/Portfolio pic.jpeg"
-									alt="Ruthvik Varma"
+									alt="Portrait of Ruthvik Varma Dendukuri"
 									fill
 									className="object-cover"
-									priority
 								/>
 							</div>
 
 							<div className="mt-4">
-								<h3 className="text-[1.9rem] font-semibold tracking-tight text-foreground">
-									Ruthvik Varma
-								</h3>
+								<p className="text-[1.75rem] font-semibold tracking-tight text-foreground sm:text-[1.9rem]">
+								Ruthvik Varma Dendukuri
+								</p>
 
 								<p className="mt-1 text-base text-muted-foreground">
-									Final-Year B.Tech Student
+								B.Tech in Data Science and AI
 								</p>
 
 								<p className="text-sm text-muted-foreground">
-									Data Science & AI
+								Graduated July 2026
 								</p>
 							</div>
 						</div>
@@ -102,7 +103,7 @@ export function EngineerBehind() {
 				{/* Right */}
 				<motion.div
 					variants={container}
-					initial="hidden"
+					initial={reduceMotion ? false : "hidden"}
 					whileInView="show"
 					viewport={{ once: true, margin: "-100px" }}
 					className="flex flex-col justify-center"
@@ -111,37 +112,39 @@ export function EngineerBehind() {
 						variants={item}
 						className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground"
 					>
-						<span className="size-1.5 rounded-full bg-accent" />
-						Engineer Profile
+						<span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
+						About
 					</motion.span>
 
 					<motion.h2
 						variants={item}
 						className="mt-2 text-4xl font-semibold tracking-tight text-foreground lg:text-[2.75rem]"
 					>
-						Engineer Behind the Systems
+						A bit about me
 					</motion.h2>
 
 					<motion.p
 						variants={item}
 						className="mt-2 max-w-xl text-base leading-7 text-muted-foreground"
 					>
-						I enjoy solving real-world problems where AI creates measurable
-						impact by turning ideas into reliable, maintainable systems.
+						I graduated with a B.Tech in Data Science and AI from ICFAI
+						Foundation for Higher Education in July 2026. I enjoy the
+						practical side of technical work: preparing data, testing an
+						approach, and learning from what does not work.
 					</motion.p>
 
 					<motion.p
 						variants={item}
 						className="mt-2 max-w-xl text-base leading-7 text-muted-foreground"
 					>
-						My interests center around computer vision, machine learning,
-						and intelligent systems with a strong focus on practical
-						engineering.
+						My experience and interests span AI/ML, computer vision, data
+						analytics, and software development. I want to keep building
+						systems that can be used and improved outside a notebook.
 					</motion.p>
 
 					<motion.dl
 						variants={container}
-						className="mt-4 grid grid-cols-3 gap-5"
+						className="mt-4 grid gap-5 sm:grid-cols-3"
 					>
 						{INFO_GROUPS.map((group) => (
 							<motion.div

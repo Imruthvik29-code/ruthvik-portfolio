@@ -1,8 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
-import { motion } from "motion/react"
+import { useEffect, useRef, useState } from "react"
+import { motion, useReducedMotion } from "motion/react"
 import { Menu, X, FileText } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
 import { RESUME_HREF } from "@/lib/resume"
@@ -17,12 +17,73 @@ const NAV_LINKS = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false)
+  const [active, setActive] = useState("#home")
+  const reduceMotion = useReducedMotion()
+  const homeLinkRef = useRef<HTMLAnchorElement>(null)
+  const menuToggleRef = useRef<HTMLButtonElement>(null)
+  const mobileNavigationRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const sections = NAV_LINKS.map((link) => document.querySelector(link.href)).filter(
+      (section): section is Element => section !== null,
+    )
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((entry) => entry.isIntersecting)
+        if (visible) setActive(`#${visible.target.id}`)
+      },
+      { rootMargin: "-20% 0px -65% 0px" },
+    )
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!open) return
+
+    const desktopMedia = window.matchMedia("(min-width: 48rem)")
+    const closeOnDesktop = () => {
+      if (!desktopMedia.matches) return
+
+      const focused = document.activeElement
+      const restoreFocus =
+        focused === document.body ||
+        focused === menuToggleRef.current ||
+        mobileNavigationRef.current?.contains(focused)
+
+      setOpen(false)
+      if (restoreFocus) homeLinkRef.current?.focus({ preventScroll: true })
+    }
+
+    if (desktopMedia.matches) {
+      closeOnDesktop()
+      return
+    }
+
+    const firstFocusable = mobileNavigationRef.current?.querySelector<HTMLElement>(
+      'a[href], button:not([disabled])',
+    )
+    firstFocusable?.focus()
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false)
+        menuToggleRef.current?.focus()
+      }
+    }
+    document.addEventListener("keydown", closeOnEscape)
+    desktopMedia.addEventListener("change", closeOnDesktop)
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape)
+      desktopMedia.removeEventListener("change", closeOnDesktop)
+    }
+  }, [open])
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: -16 }}
+      initial={reduceMotion ? false : { opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-x-0 top-3 z-50 flex justify-center px-4"
     >
       <nav
@@ -30,7 +91,7 @@ export function Navbar() {
         className="flex w-full max-w-4xl items-center justify-between gap-4 rounded-2xl border border-border bg-background/60 px-4 py-3 shadow-lg shadow-black/20 backdrop-blur-xl md:px-6"
       >
         {/* Logo */}
-        <a href="#home" className="group flex items-center gap-2.5" aria-label="Ruthvik Varma, home">
+        <a ref={homeLinkRef} href="#home" className="group flex items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent" aria-label="Ruthvik Varma Dendukuri, home">
           <span className="flex size-8 items-center justify-center rounded-lg border border-border bg-secondary/40 transition-colors duration-300 group-hover:border-foreground/30">
             <svg
               viewBox="0 0 24 24"
@@ -57,7 +118,7 @@ export function Navbar() {
             </svg>
           </span>
           <span className="hidden text-sm font-medium tracking-tight text-foreground sm:block">
-            Ruthvik Varma
+            Ruthvik Varma Dendukuri
           </span>
         </a>
 
@@ -67,10 +128,14 @@ export function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="group relative rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                onClick={() => setActive(link.href)}
+                aria-current={active === link.href ? "location" : undefined}
+                className={`group relative rounded-lg px-3 py-2 text-sm transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                  active === link.href ? "text-foreground" : "text-muted-foreground"
+                }`}
               >
                 {link.label}
-                <span className="absolute inset-x-3 bottom-1 h-px origin-left scale-x-0 bg-foreground/50 transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                <span className={`absolute inset-x-3 bottom-1 h-px origin-left bg-accent transition-transform duration-200 ease-out group-hover:scale-x-100 ${active === link.href ? "scale-x-100" : "scale-x-0"}`} />
               </a>
             </li>
           ))}
@@ -84,18 +149,21 @@ export function Navbar() {
             className={buttonVariants({
               size: "sm",
               className:
-                "group hidden rounded-xl font-medium transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/10 sm:inline-flex",
+                "group hidden rounded-xl font-medium transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/10 focus-visible:ring-2 focus-visible:ring-accent sm:inline-flex",
             })}
           >
             <FileText className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5" aria-hidden="true" />
             Resume
           </Link>
           <button
+            id="mobile-menu-toggle"
+            ref={menuToggleRef}
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
+            aria-controls="mobile-navigation"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="flex size-9 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-secondary md:hidden"
+            className="flex size-9 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent md:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -104,8 +172,31 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
+        <motion.nav
+          id="mobile-navigation"
+          ref={mobileNavigationRef}
+          aria-label="Mobile"
+          onKeyDown={(event) => {
+            if (event.key !== "Tab") return
+
+            const focusable = Array.from(
+              event.currentTarget.querySelectorAll<HTMLElement>(
+                'a[href], button:not([disabled])',
+              ),
+            )
+            const first = focusable[0]
+            const last = focusable[focusable.length - 1]
+
+            if (!first || !last) return
+            if (event.shiftKey && document.activeElement === first) {
+              event.preventDefault()
+              last.focus()
+            } else if (!event.shiftKey && document.activeElement === last) {
+              event.preventDefault()
+              first.focus()
+            }
+          }}
+          initial={reduceMotion ? false : { opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="absolute top-full mt-2 w-[calc(100%-2rem)] max-w-4xl rounded-2xl border border-border bg-background/90 p-3 shadow-xl backdrop-blur-xl md:hidden"
@@ -115,8 +206,15 @@ export function Navbar() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                  onClick={(event) => {
+                    event.preventDefault()
+                    setOpen(false)
+                    setActive(link.href)
+                    window.location.hash = link.href
+                    requestAnimationFrame(() => menuToggleRef.current?.focus())
+                  }}
+                  aria-current={active === link.href ? "location" : undefined}
+                  className={`block rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${active === link.href ? "text-foreground" : "text-muted-foreground"}`}
                 >
                   {link.label}
                 </a>
@@ -126,7 +224,10 @@ export function Navbar() {
           <Link
             href={RESUME_HREF}
             download
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false)
+              menuToggleRef.current?.focus()
+            }}
             className={buttonVariants({
               size: "sm",
               className: "mt-2 w-full rounded-xl font-medium",
@@ -135,7 +236,7 @@ export function Navbar() {
             <FileText className="size-4" aria-hidden="true" />
             Resume
           </Link>
-        </motion.div>
+        </motion.nav>
       )}
     </motion.header>
   )

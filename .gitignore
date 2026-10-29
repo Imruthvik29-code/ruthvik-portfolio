@@ -12,4 +12,8 @@ __v0_jsx-dev-runtime.ts
 # Common ignores
 node_modules
 .next/
+*.tsbuildinfo
 .DS_Store
+
+# Local browser diagnostics
+/debug.log

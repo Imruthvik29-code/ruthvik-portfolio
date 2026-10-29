@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, type Variants } from "motion/react"
+import { motion, useReducedMotion, type Variants } from "motion/react"
 
 type Entry = {
 	title: string
@@ -35,16 +35,16 @@ const EXPERIENCE: Entry[] = [
 	{
 		title: "AI/ML Intern",
 		organization: "NextEra Unitech Pvt. Ltd.",
-		date: "Jan 2026 – Present",
+		date: "Jan 2026 – Aug 2026",
 		description:
-			"Developing computer vision and AI workflows for preprocessing, model development, evaluation, and automation.",
+			"Worked on computer vision and AI workflows, from preprocessing and model development to evaluation and automation.",
 	},
 	{
-		title: "SEO Analyst",
+		title: "SEO Analyst Intern",
 		organization: "Medintu Health Solutions",
 		date: "Jun 2024 – Aug 2024",
 		description:
-			"Improved search visibility through keyword research, technical optimization, and data-driven SEO.",
+			"Worked on keyword research, technical optimization, and data-driven SEO to improve search visibility.",
 	},
 ]
 
@@ -71,9 +71,9 @@ function EntryRow({ entry }: { entry: Entry }) {
 		<div className="grid gap-3 border-b border-border py-4 sm:grid-cols-[1fr_auto] sm:gap-5">
 			<div>
 				<div className="flex flex-col gap-1">
-					<h3 className="text-[1.7rem] font-semibold leading-tight tracking-tight text-foreground">
+					<h4 className="text-[1.7rem] font-semibold leading-tight tracking-tight text-foreground">
 						{entry.title}
-					</h3>
+					</h4>
 
 					<p className="text-sm text-muted-foreground">
 						{entry.organization}
@@ -120,14 +120,16 @@ function JourneyGroup({
 }
 
 export function EngineeringJourney() {
+	const reduceMotion = useReducedMotion()
+
 	return (
 		<section
 			id="experience"
-			className="relative mx-auto max-w-6xl px-6 py-10 lg:py-12"
+			className="relative mx-auto max-w-6xl scroll-mt-24 px-6 py-12 lg:py-14"
 		>
 			<motion.div
 				variants={container}
-				initial="hidden"
+				initial={reduceMotion ? false : "hidden"}
 				whileInView="show"
 				viewport={{ once: true, margin: "-100px" }}
 			>
@@ -135,7 +137,7 @@ export function EngineeringJourney() {
 					variants={item}
 					className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground"
 				>
-					<span className="size-1.5 rounded-full bg-accent" />
+					<span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
 					Journey
 				</motion.span>
 
@@ -150,7 +152,7 @@ export function EngineeringJourney() {
 					variants={item}
 					className="mt-2 max-w-xl text-base leading-7 text-muted-foreground"
 				>
-					A concise view of education and experience shaped into a practical engineering path.
+					A concise record of my education and experience.
 				</motion.p>
 
 				<motion.div

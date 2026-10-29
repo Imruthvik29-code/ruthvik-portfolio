@@ -21,7 +21,7 @@ export default async function SystemPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const system = SYSTEMS[slug]
+  const system = Object.hasOwn(SYSTEMS, slug) ? SYSTEMS[slug] : undefined
 
   if (!system) {
     notFound()
@@ -36,7 +36,7 @@ export default async function SystemPage({
 
       <section className="relative mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-6 py-28">
         <Link
-          href="/#systems"
+          href="/#projects"
           className="group inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
         >
           <ArrowLeft className="size-4 transition-transform duration-300 group-hover:-translate-x-0.5" />

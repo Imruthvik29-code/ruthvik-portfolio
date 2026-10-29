@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { motion, type Variants } from "motion/react"
+import { motion, useReducedMotion, type Variants } from "motion/react"
 import { ArrowUpRight } from "lucide-react"
 
 type System = {
@@ -56,14 +56,16 @@ const item: Variants = {
 }
 
 export function Systems() {
+	const reduceMotion = useReducedMotion()
+
 	return (
 		<section
 			id="projects"
-			className="relative mx-auto max-w-6xl px-6 py-10 lg:py-14"
+			className="relative mx-auto max-w-6xl scroll-mt-24 px-6 py-12 lg:py-14"
 		>
 			<motion.div
 				variants={container}
-				initial="hidden"
+				initial={reduceMotion ? false : "hidden"}
 				whileInView="show"
 				viewport={{ once: true, margin: "-100px" }}
 			>
@@ -71,7 +73,7 @@ export function Systems() {
 					variants={item}
 					className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground"
 				>
-					<span className="size-1.5 rounded-full bg-accent" />
+					<span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
 					Selected Work
 				</motion.span>
 
@@ -93,7 +95,7 @@ export function Systems() {
 
 			<motion.ul
 				variants={container}
-				initial="hidden"
+				initial={reduceMotion ? false : "hidden"}
 				whileInView="show"
 				viewport={{ once: true, margin: "-80px" }}
 				className="mt-10 grid gap-6 lg:grid-cols-2"
@@ -108,8 +110,9 @@ export function Systems() {
 							className="
 								group
 								flex
-								h-[148px]
+								min-h-[148px]
 								flex-col
+								gap-4
 								justify-between
 								rounded-2xl
 								border
@@ -123,6 +126,9 @@ export function Systems() {
 								hover:border-accent/40
 								hover:bg-secondary/35
 								hover:shadow-[0_10px_30px_rgba(0,0,0,0.12)]
+								focus-visible:outline-none
+								focus-visible:ring-2
+								focus-visible:ring-accent
 							"
 						>
 							<h3

@@ -1,59 +1,49 @@
+import type { Metadata } from 'next'
+import './globals.css'
+
 export const metadata: Metadata = {
   title: {
-    default: 'Ruthvik Varma',
+    default: 'Ruthvik Varma Dendukuri',
     template: '%s | Ruthvik Varma',
   },
 
   description:
-    'Final Year Data Science & AI student building intelligent systems across Computer Vision, Machine Learning, Deep Learning, and Generative AI.',
-
-  keywords: [
-    'Ruthvik Varma',
-    'AI Engineer',
-    'Machine Learning',
-    'Deep Learning',
-    'Computer Vision',
-    'Generative AI',
-    'LLM',
-    'Data Science',
-    'Portfolio',
-    'Next.js',
-  ],
+    'Ruthvik Varma Dendukuri works across AI, data, computer vision, and software development.',
 
   authors: [
     {
-      name: 'Ruthvik Varma',
+      name: 'Ruthvik Varma Dendukuri',
     },
   ],
 
-  creator: 'Ruthvik Varma',
+  creator: 'Ruthvik Varma Dendukuri',
 
   metadataBase: new URL('https://ruthvik-varma.vercel.app'),
 
   openGraph: {
-    title: 'Ruthvik Varma',
+    title: 'Ruthvik Varma Dendukuri',
     description:
-      'Building Intelligent Systems with AI, Machine Learning, Computer Vision, and Generative AI.',
+      'Work across AI, data, computer vision, and software development.',
     url: 'https://ruthvik-varma.vercel.app',
-    siteName: 'Ruthvik Varma',
+    siteName: 'Ruthvik Varma Dendukuri',
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Ruthvik Varma Portfolio',
+        alt: 'Ruthvik Varma Dendukuri Portfolio',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Ruthvik Varma',
+    title: 'Ruthvik Varma Dendukuri',
     description:
-      'Building Intelligent Systems with AI, Machine Learning, Computer Vision, and Generative AI.',
-    images: ['/og-image.png'],
+      'Work across AI, data, computer vision, and software development.',
+    images: ['/opengraph-image'],
   },
 
   robots: {
@@ -78,4 +68,12 @@ export const metadata: Metadata = {
     ],
     apple: '/apple-icon.png',
   },
+}
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  )
 }

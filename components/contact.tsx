@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { motion, type Variants } from "motion/react"
+import { motion, useReducedMotion, type Variants } from "motion/react"
 import { ArrowUpRight, Download, Mail } from "lucide-react"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
 import { RESUME_HREF } from "@/lib/resume"
@@ -66,14 +66,16 @@ const CONTACT_LINKS: ContactLink[] = [
 ]
 
 export function Contact() {
+	const reduceMotion = useReducedMotion()
+
 	return (
 		<section
 			id="contact"
-			className="relative mx-auto max-w-6xl px-6 py-10 lg:py-12"
+			className="relative mx-auto max-w-6xl scroll-mt-24 px-6 py-12 lg:py-16"
 		>
 			<motion.div
 				variants={container}
-				initial="hidden"
+				initial={reduceMotion ? false : "hidden"}
 				whileInView="show"
 				viewport={{ once: true, margin: "-100px" }}
 			>
@@ -81,7 +83,7 @@ export function Contact() {
 					variants={item}
 					className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground"
 				>
-					<span className="size-1.5 rounded-full bg-accent" />
+					<span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
 					CONTACT
 				</motion.span>
 
@@ -89,14 +91,14 @@ export function Contact() {
 					variants={item}
 					className="mt-3 text-4xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]"
 				>
-					Contact
+					Let&apos;s talk
 				</motion.h2>
 
 				<motion.p
 					variants={item}
 					className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg"
 				>
-					Open to AI internships, full-time engineering roles, research opportunities, and meaningful collaborations.
+					I&apos;m interested in roles and collaborations across AI/ML, data science, data analytics, computer vision, and software development. Let&apos;s talk if our interests align.
 				</motion.p>
 
 				<motion.div
@@ -106,7 +108,7 @@ export function Contact() {
 					{/* Left */}
 					<motion.div variants={item}>
 						<p className="max-w-sm text-lg leading-7 text-muted-foreground">
-							I'm always interested in discussing AI systems, machine learning, research, and practical engineering challenges. Whether it's an internship, full-time opportunity, or collaboration, I'd be happy to connect.
+							Email is the easiest way to reach me. You can also find me on GitHub and LinkedIn, or download my resume here.
 						</p>
 					</motion.div>
 
@@ -125,25 +127,25 @@ export function Contact() {
 											? "noopener noreferrer"
 											: undefined
 									}
-									className="group flex items-center justify-between rounded-xl border border-border px-5 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/20 hover:bg-secondary/40"
+									className="group flex items-center justify-between gap-3 rounded-xl border border-border px-5 py-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-secondary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
 								>
-									<div className="flex items-center gap-3">
-										<div className="text-muted-foreground">
+									<div className="flex min-w-0 items-center gap-3">
+										<div className="shrink-0 text-muted-foreground">
 											{link.icon}
 										</div>
 
-										<div>
+										<div className="min-w-0">
 											<p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
 												{link.label}
 											</p>
 
-											<p className="mt-0.5 text-sm text-foreground">
+											<p className="mt-0.5 break-words text-sm text-foreground">
 												{link.value}
 											</p>
 										</div>
 									</div>
 
-									<ArrowUpRight className="size-4 text-muted-foreground transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+									<ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
 								</Link>
 							</motion.div>
 						))}
@@ -154,7 +156,7 @@ export function Contact() {
 					variants={item}
 					className="mt-6 text-center text-sm text-muted-foreground"
 				>
-					Building intelligent systems that solve real-world problems.
+					Ruthvik Varma Dendukuri · Data Science and AI
 				</motion.p>
 			</motion.div>
 		</section>

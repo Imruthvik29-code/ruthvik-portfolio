@@ -12,7 +12,7 @@ export default function Page() {
       {/* Ambient background grid */}
       <div
         aria-hidden="true"
-        className="animate-grid-drift pointer-events-none absolute inset-0 opacity-[0.25]"
+        className="pointer-events-none absolute inset-0 opacity-[0.25]"
         style={{
           backgroundImage:
             "linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px)",
