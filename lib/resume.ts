@@ -1,1 +1,1 @@
-export const RESUME_HREF = "/My%20resume.pdf"
+export const RESUME_HREF = "/Ruthvik%20Varma.D%20resume.pdf"

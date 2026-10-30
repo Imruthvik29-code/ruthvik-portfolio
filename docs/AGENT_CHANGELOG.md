@@ -1,6 +1,6 @@
 # Agent Changelog
 
-Last updated: 2026-10-29T17:48:00+05:30
+Last updated: 2026-10-29T18:36:38+05:30
 
 ## 1. Purpose and handoff instructions
 
@@ -528,6 +528,22 @@ This same file should be updated after each future agent task. Do not create com
   - The earlier release-QA report observed ignored `debug.log` grow from 96 to 192 bytes by an additional Chromium ICU diagnostic; its origin was not conclusively attributed and nothing was restored/discarded. It remained ignored and byte-for-byte unchanged during the reduced-motion test and this reconciliation task.
   - This task changed only `docs/AGENT_CHANGELOG.md`. All unrelated changes and the resume were preserved. Branch `main`, HEAD `0ea37c1cb6d6a56a6c3322f926b43900a1e93e6d`; 15 modified tracked files, two untracked files (`app/opengraph-image.tsx`, this ledger), no staged changes. The intended 17-file commit inventory is unchanged. Nothing was staged, committed, pushed, or deployed.
 
+### Task 17 — Replace the downloadable resume with the owner's current PDF (2026-10-29)
+
+- The user supplied `C:\Users\ACER\OneDrive\Certificates\Ruthvik Varma.D resume.pdf` and explicitly requested replacing the older downloadable resume.
+- Starting Git state: branch `main`, HEAD `6388b9677b2994fe9b16d7b72a905734a97011ae`, clean working tree, no staged changes. The preceding approved 17-file commit was preserved.
+- Copied the supplied PDF verbatim to `public/My resume.pdf`. Its existing `/My%20resume.pdf` URL and all portfolio resume links were retained. The source file was not modified, and no PDF content or formatting was rewritten.
+- Verified that the supplied PDF opens without a password and has two pages. The replacement is 61,947 bytes and its SHA-256 exactly matches the supplied file: `470ce8bc175cafa90cbbe621b742749169e98381a240073f78ac48ce14021cb4`.
+- The text/raster comparisons recorded in Tasks 12 and 16 apply to the previous PDF version. This replacement was verified for PDF opening, page count, and byte-for-byte copying; no new content audit, page-render inspection, or production build is claimed for it.
+- This pass changed only `public/My resume.pdf` and this ledger. Application source, routes, metadata, and ignored `debug.log` were preserved. `git diff --check` passed. Nothing was staged, committed, pushed, or deployed.
+
+### Task 18 — Use the owner's name in the resume download filename (2026-10-29)
+
+- The user requested the filename `Ruthvik Varma.D resume.pdf` so downloaded copies identify the owner.
+- Renamed `public/My resume.pdf` to `public/Ruthvik Varma.D resume.pdf` and updated the shared `RESUME_HREF` in `lib/resume.ts` to `/Ruthvik%20Varma.D%20resume.pdf`. Hero, desktop/mobile navigation, and Contact already use that constant; their resume links therefore use the new filename.
+- PDF bytes were preserved exactly (SHA-256 `470ce8bc175cafa90cbbe621b742749169e98381a240073f78ac48ce14021cb4`). Verified that the decoded URL resolves to the renamed public file and that no application source still references the old filename. `git diff --check` passed. A browser download was not initiated during this filename-only change.
+- Preserved the preceding resume replacement and all other existing changes. Ignored `debug.log` remained unchanged. No staging, commit, push, or deployment occurred.
+
 ## 4. Build and troubleshooting history
 
 1. The committed baseline `app/layout.tsx` exported metadata but no default React layout component. The working tree already contained a default `RootLayout` when the initial investigation began. This was reported in session; verify against Git.
@@ -571,6 +587,8 @@ This same file should be updated after each future agent task. Do not create com
   - No pixel-perfect visual sign-off.
 
 ## 6. Current unresolved issues
+
+- Resume update (2026-10-29, Task 17): the owner's newly supplied PDF replaces the version reviewed in Task 16. Exact-copy and PDF-opening checks passed; the earlier resume text/render comparison remains historical and does not describe this new file.
 
 - Final QA update (2026-10-29, Task 16): the subsequently completed calibrated mobile/project visual checks and Windows-driven reduced-motion runtime test passed for the tested scope, and the original Windows preference was restored and verified. The fresh original-versus-replacement resume text/render comparison also passed. Earlier screenshot/reduced-motion limitations below are historical. Remaining coverage, skill-confirmation, and editable-resume-source limitations are listed in Task 16.
 
