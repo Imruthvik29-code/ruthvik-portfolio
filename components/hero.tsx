@@ -8,10 +8,9 @@ import { AiVisualization } from "@/components/ai-visualization"
 import { RESUME_HREF } from "@/lib/resume"
 
 const FOCUS_AREAS = [
-  "AI & Data Science",
-  "Machine Learning",
+  "AI & Machine Learning",
+  "Data Science",
   "Computer Vision",
-  "Data Analytics",
   "Software Development",
 ]
 
@@ -48,16 +47,20 @@ export function Hero() {
           className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-3 py-1.5 text-xs font-medium text-muted-foreground"
         >
           <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
-          Open to opportunities across AI, data, and software
+          Open to opportunities
         </motion.span>
 
         <motion.h1
           variants={item}
           className="mt-5 max-w-2xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl lg:text-[4.25rem]"
         >
-          Hi, I&apos;m Ruthvik Varma Dendukuri.
+          Hi, I&apos;m Ruthvik.
           <span className="block">
-            I work across <span className="text-accent">AI, data, and software.</span>
+            I work in{" "}
+            <span className="text-accent">
+              <span className="whitespace-nowrap">AI, data</span>{" "}
+              <span className="whitespace-nowrap">&amp; software.</span>
+            </span>
           </span>
         </motion.h1>
 
@@ -75,9 +78,8 @@ export function Hero() {
           variants={item}
           className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg"
         >
-          I&apos;m a Data Science and AI graduate with experience across machine
-          learning, computer vision, data analytics, and software development. I&apos;m
-          interested in work where I can build, evaluate, and improve useful systems.
+          I&apos;m a recent graduate with internship experience, drawn to practical
+          problems and work that connects ideas to real needs.
         </motion.p>
 
         <motion.div variants={item} className="mt-7 flex flex-col gap-3 sm:flex-row">

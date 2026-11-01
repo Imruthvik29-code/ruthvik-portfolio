@@ -1,6 +1,6 @@
 # Agent Changelog
 
-Last updated: 2026-10-29T18:36:38+05:30
+Last updated: 2026-11-01 (Asia/Calcutta)
 
 ## 1. Purpose and handoff instructions
 
@@ -544,6 +544,72 @@ This same file should be updated after each future agent task. Do not create com
 - PDF bytes were preserved exactly (SHA-256 `470ce8bc175cafa90cbbe621b742749169e98381a240073f78ac48ce14021cb4`). Verified that the decoded URL resolves to the renamed public file and that no application source still references the old filename. `git diff --check` passed. A browser download was not initiated during this filename-only change.
 - Preserved the preceding resume replacement and all other existing changes. Ignored `debug.log` remained unchanged. No staging, commit, push, or deployment occurred.
 
+### Task 19 — Restrained hero hierarchy and copy refinement (2026-10-30)
+
+- Scope and baseline:
+  - User explicitly requested reducing repeated information in the hero while retaining the visual identity, desktop columns, large typography, panel, navigation, and resume links.
+  - Started on clean `main`, HEAD `a34e85fc91ffcef533d1f33ab8d438ce29fb6b23`. Inspected the hero, panel, page composition, global styles, resume constant, and existing workflow before editing. Public homepage HTTP inspection confirmed the original five pills, full-name greeting, and panel caption were still live; no live changes were made.
+  - Exact repetition sources: `components/hero.tsx` supplies the availability badge, H1, FOCUS_AREAS pills, introduction, and CTAs; `components/ai-visualization.tsx` supplies the right panel. `app/page.tsx` supplies the background grid/glow and homepage composition; it was not changed.
+- Changes:
+  - `components/hero.tsx`: reduced five overlapping pills to the requested four: AI & Machine Learning, Data Science, Computer Vision, Software Development. Preserved the existing flex-wrap list, gaps, pill styling, and typography.
+  - Shortened the badge to "Open to opportunities" and greeting to "Hi, I'm Ruthvik." The full name remains in the unchanged navigation and About section. Retained the AI/data/software message as "I work in AI, data & software." and grouped the closing phrases to discourage a lone "software." line. H1 font sizes, weight, line-height, and desktop grid classes are unchanged; no typography shrink was used.
+  - Replaced the field-list paragraph with "I'm a recent graduate with internship experience, drawn to practical problems and work that connects ideas to real needs." This gives background/motivation rather than repeating either the pills or panel process. It targets two or three desktop lines, but the actual rendered line count remains unverified.
+  - `components/ai-visualization.tsx`: kept "From code to applied AI.", the three numbered entries, cyan markers/rule, grid, border, radius, shadow, and existing type sizes. Replaced the repeated field taxonomy with Prepare / Start with the data; Evaluate / Test and refine the approach; Apply / Build something useful. Changed the small label to "Process / 01—03".
+  - Removed the redundant bottom caption. Named the figure through `aria-labelledby="ai-workflow-title"` pointing to its existing paragraph title, rather than adding a structural heading. The served HTML has exactly one matching ID.
+  - Replaced forced aspect ratios with a content-driven figure and inner minimum heights of 320px, or 360px from the existing sm breakpoint. Content can grow naturally. Kept existing padding and added a 2rem gap between title and steps; removed the title's max-width cap to avoid unnecessary wrapping. These are design intentions, not verified viewport measurements.
+  - `docs/AGENT_CHANGELOG.md`: this dated task/update note and timestamp. All earlier history is retained.
+- Actual validation:
+  - Final `corepack pnpm exec tsc --noEmit`: passed, exit 0. `git diff --check`: passed; LF-to-CRLF advisories were not whitespace failures.
+  - Default sandboxed Turbopack `corepack pnpm build` compiled, then failed in TypeScript worker creation with environmental `spawn EPERM` (`errno -4048`). The unchanged default build outside the sandbox passed compilation, TypeScript, static generation, and route optimization. The final paragraph wording was present in the successful final build. No dependency installation or build-setting change occurred; process-local `PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false` prevented automatic pnpm dependency checks/installations.
+  - Served the final production build on dedicated local port 3109. Homepage returned HTTP 200. Parsed production HTML confirmed the four exact pill labels, revised introduction/H1, exactly three panel list items, preserved panel title, no bottom caption, one figure-label target, and a single hero H1.
+  - Verified the View projects link still points to the existing `#projects` section and the hero resume link retains its download attribute and shared `/Ruthvik%20Varma.D%20resume.pdf` URL. That endpoint returned 200, application/pdf, and bytes identical to the unchanged public PDF (SHA-256 `470ce8bc175cafa90cbbe621b742749169e98381a240073f78ac48ce14021cb4`). This is HTTP/source verification, not a newly exercised browser download or keyboard-navigation flow.
+  - Source inspection confirmed the existing `useReducedMotion` guards and global reduced-motion CSS were retained unchanged. The panel remains static with no animation loop. Existing navigation code and focus treatments were not modified.
+- Explicit visual/runtime limitations:
+  - Connected browser inventory failed with "browser access host is unavailable". The existing native Windows workflow could inspect a browser surface, but its dedicated-tab action was stopped because it could not determine the browser URL with enough confidence to enforce policy. All further UI automation stopped; no alternative bypass was attempted.
+  - Therefore the complete first viewport at 1366 × 768, 1280 × 800, 768 × 800, 390 × 843, and 320 × 800 was NOT runtime measured or visually inspected for this revision. No updated portfolio screenshots were captured. Pill wrapping, final headline/paragraph line counts, panel balance, overlap/clipping/overflow, keyboard interaction, and reduced-motion runtime behavior remain unverified for the new hero.
+  - Existing Segoe UI font files and installed Pillow supplied a conservative offline text-width check when selecting short nonwrapping phrases. These font estimates and served-HTML/source checks are not equivalent to browser layout or screenshot verification.
+  - Previous visual/reduced-motion passes apply to the earlier committed hero. They do not establish a runtime pass for this changed revision. A reliable browser session is still needed for the five viewport checks and reduced-motion/interaction retest before final visual approval.
+- Preservation:
+  - Final diff/hash inspection confirmed only the two hero components and this ledger changed. The resume PDF, resume constant, navigation, global styles, project pages/content, metadata, dependencies, configuration, ignored debug.log, branch, and HEAD were preserved. Nothing was staged, committed, pushed, or deployed. The dedicated production QA server was stopped after checks; the pre-existing development process was not altered.
+
+### Task 20 — Headless visual and interaction QA of the refined hero (2026-11-01)
+
+- Scope and preservation:
+  - Continued the existing refinement without making design or application-source changes. Baseline: `main`, HEAD `a34e85fc91ffcef533d1f33ab8d438ce29fb6b23`; only `components/hero.tsx`, `components/ai-visualization.tsx`, and this ledger were modified, all unstaged. The two component modifications were preserved byte-for-byte.
+  - Did not retry the browser connector or native Computer Use. Found an already installed Playwright Core 1.64.1 at `C:\Users\ACER\AppData\Local\Temp\pv-browser-tooling-1.64.1-gi276w3h\tools\node_modules\playwright-core`, and successfully launched installed headless Chrome 156.0.8078.74. No packages, browsers, or project dependencies were installed.
+  - `http://localhost:3000` initially refused connections and process/socket inspection found no portfolio server. Built the current sources and served that fresh production build with the existing `next start` workflow on localhost:3000. HTTP 200, page title, shortened introduction, four pills, and panel heading identified the actual portfolio before browser testing. Testing production avoided starting `next dev`; `next-env.d.ts` retained its original hash.
+- Screenshots and measured layout:
+  - Captured and directly inspected all five first-viewport screenshots with actual `innerWidth`/`innerHeight` verified and device scale factor 1. Also captured and inspected separate figure screenshots, so below-fold content was checked visually rather than inferred from measurements.
+
+  | CSS viewport | H1 lines | Intro lines | Pills per row | Panel dimensions | Panel top |
+  | --- | --- | --- | --- | --- | --- |
+  | 1366 × 768 | 3 | 2 | 4 | 478.81 × 362px | 188.59px |
+  | 1280 × 800 | 3 | 2 | 4 | 478.81 × 362px | 203px |
+  | 768 × 800 | 3 | 2 | 4 | 448 × 362px | 575.5px |
+  | 390 × 843 | 4 | 3 | 2 / 2 | 342 × 322px | 689.56px |
+  | 320 × 800 | 5 | 4 | 2 / 1 / 1 | 272 × 325px | 799.95px |
+
+  - All five had document scroll width equal to viewport width; no horizontal overflow, clipped panel text, or unintended overlap was observed. Desktop columns retained a dominant headline and quieter panel. Tablet/mobile retained the existing stacked composition; the panel extends below the first fold, and at 320px starts at approximately the fold. It is fully visible on scrolling, with all three rows contained.
+  - At 320px the greeting wraps as `Hi, I'm` / `Ruthvik.` and the panel title ends with `AI.` on a second line. These are explicit narrow-screen wrapping tradeoffs for visual sign-off, not hidden or clipped content. No typography shrink or unapproved styling change was applied. At desktop the H1 reads `Hi, I'm Ruthvik.` / `I work in AI, data` / `& software.` without a lone `software.` line.
+  - Confirmed the four requested labels and shortened paragraph. Prepare → Evaluate → Apply, with its existing supporting text, reads as a practical workflow rather than another field list. It does not claim a new qualification or achievement; no copy change is recommended on that evidence.
+  - Artifacts are outside Git at `C:\Users\ACER\AppData\Local\Temp\portfolio-hero-qa-20261101\`: `home-1366x768.png`, `home-1280x800.png`, `home-768x800.png`, `home-390x843.png`, `home-320x800.png`; corresponding `panel-<width>x<height>.png`; keyboard/menu/reduced-motion screenshots; `report.json` and diagnostic scripts/JSON. The first normal-menu screenshot caught its entry animation; `mobile-menu-open-settled-390x843.png` is the stable normal-mode capture. Stable reduced-mode menus were inspected at both mobile sizes.
+- Keyboard, navigation, and resume results:
+  - Desktop Tab order traversed brand, Home, Experience, Projects, Capabilities, Contact, Resume, and hero CTAs. Navbar links reported `:focus-visible` and cyan focus rings. Keyboard-focus screenshot inspected.
+  - At 390px, keyboard reached the toggle, Enter opened the menu and focused Home, Shift+Tab wrapped Home → Resume, and Tab wrapped Resume → Home. Escape removed the menu, set `aria-expanded=false`, and restored visible keyboard focus to the toggle. Keyboard activation of Projects closed the menu, set `/#projects`, restored toggle focus, and positioned the section at 95.56px, below the fixed navbar.
+  - Reduced-mode menu open/Escape/focus restoration also passed at 390px and 320px; the 320px open menu had no horizontal overflow.
+  - Desktop/hero/Contact hrefs and the mobile-menu resume href use `/Ruthvik%20Varma.D%20resume.pdf`. Endpoint returned HTTP 200, `application/pdf`, a `%PDF-` header, and SHA-256 `470ce8bc175cafa90cbbe621b742749169e98381a240073f78ac48ce14021cb4`, matching the unchanged public asset. Hero/navbar keep their download attributes. Contact's existing link has no download attribute and opens the PDF normally; an initial test assertion incorrectly required that attribute on every resume link. Source inspection identified the overbroad test expectation; the filename and actual hero/navbar download assertions were retained and passed.
+- Actual reduced-motion runtime results and caveats:
+  - Used Playwright browser emulation, not Windows preference changes. Chrome reported media-query false in normal mode and true with `reducedMotion: 'reduce'`. No OS preference required restoration; isolated browser contexts were closed.
+  - In reduced mode, computed hero/header/menu transitions were 0s, CSS animation names were none, and HTML scroll behavior was auto. Settled H1/panel transforms were none, hero content was visible, and there were no running or infinite animations. The panel remained static. Menu interaction, focus restoration, and in-page navigation passed; reduced-mode hero/menu screenshots were captured and inspected.
+  - A strict immediate-first-paint assertion failed: server-rendered H1 initially had opacity 0 and translateY(14px), then jumped to opacity 1 / transform none at hydration (approximately 533ms in the diagnostic run). Normal mode instead animated through intermediate opacity/translation values. This transient pre-hydration state is recorded rather than relabeled as an immediate-visibility pass.
+  - A separate 200ms all-section-visibility assertion also failed. Timestamped follow-up established that existing below-fold Motion reveals still perform finite staggered opacity fades in reduced mode; spatial transforms jump to none. This is reduced motion, not a guarantee of zero animation. After 2.2 seconds for each revealed Experience, Projects, Capabilities, and Contact section, all tested text/links and ancestor groups were visible, all transforms were none, and no animations remained running. No persistently inaccessible content or continuous animation was found. Earlier failed samples remain in the diagnostics; no assertion or source change was used to conceal them.
+  - No console errors or uncaught page errors were observed in the tested flows. Coverage is installed headless Chrome at the stated sizes, not cross-browser, real-device, screen-reader, or network-throttled sign-off. Immediate pre-hydration visibility and an entirely fade-free reduced mode are not claimed.
+- Technical checks:
+  - Requested `corepack pnpm exec tsc --noEmit` and `corepack pnpm build` could not start pnpm's existing native executable: `spawnSync ...pnpm-native.exe UNKNOWN`, both inside and outside the sandbox. This is a package-runner/environment failure, not a TypeScript source diagnostic; no reinstall or package/configuration edit was attempted.
+  - Equivalent installed TypeScript entry point `node node_modules/typescript/bin/tsc --noEmit`: passed, exit 0.
+  - Equivalent unchanged default production build `node node_modules/next/dist/bin/next build`: sandbox compilation succeeded, then TypeScript worker creation failed with `spawn EPERM`, errno -4048. The same command outside the sandbox passed compilation, TypeScript, static generation (10/10), and optimization using default Turbopack. No Webpack fallback or build-setting change was used.
+  - `git diff --check`: passed; LF-to-CRLF advisories are not whitespace failures. Final status remained the same three unstaged modified files with no untracked QA artifacts. Only this ledger was edited during this QA task; component, resume, `next-env.d.ts`, and ignored `debug.log` hashes were unchanged. Nothing was staged, committed, pushed, or deployed. The temporary production QA server was stopped after testing.
+
 ## 4. Build and troubleshooting history
 
 1. The committed baseline `app/layout.tsx` exported metadata but no default React layout component. The working tree already contained a default `RootLayout` when the initial investigation began. This was reported in session; verify against Git.
@@ -587,6 +653,10 @@ This same file should be updated after each future agent task. Do not create com
   - No pixel-perfect visual sign-off.
 
 ## 6. Current unresolved issues
+
+- Hero QA follow-up (2026-11-01, Task 20): all five requested viewport screenshots, layout measurements, keyboard/menu/resume checks, and browser reduced-motion emulation were completed for the refined hero. Historical Task 19 limitations below are superseded for this coverage. The 320px single-word wraps remain a visual-sign-off consideration. Reduced mode suppresses spatial motion/CSS transitions and stays functional, but pre-hydration hidden styles and finite below-fold opacity reveals remain explicit caveats; an animation-free or immediate-first-paint pass is not claimed. See Task 20 for exact tool/build-runner failures and successful equivalent checks.
+
+- Hero refinement (2026-10-30, Task 19): production build/TypeScript and served-HTML checks passed for the refined hero. The five requested viewport visual checks and a fresh reduced-motion/interaction runtime retest remain incomplete because browser access was unavailable/stopped. Earlier completed QA below describes the previous hero, not this new revision.
 
 - Resume update (2026-10-29, Task 17): the owner's newly supplied PDF replaces the version reviewed in Task 16. Exact-copy and PDF-opening checks passed; the earlier resume text/render comparison remains historical and does not describe this new file.
 
