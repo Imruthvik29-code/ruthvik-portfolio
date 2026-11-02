@@ -61,7 +61,7 @@ export function Systems() {
 	return (
 		<section
 			id="projects"
-			className="relative mx-auto max-w-6xl scroll-mt-24 px-6 py-12 lg:py-14"
+			className="section-anchor relative mx-auto max-w-6xl px-6"
 		>
 			<motion.div
 				variants={container}

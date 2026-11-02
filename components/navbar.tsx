@@ -19,23 +19,71 @@ export function Navbar() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState("#home")
   const reduceMotion = useReducedMotion()
+  const headerRef = useRef<HTMLElement>(null)
   const homeLinkRef = useRef<HTMLAnchorElement>(null)
   const menuToggleRef = useRef<HTMLButtonElement>(null)
   const mobileNavigationRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const sections = NAV_LINKS.map((link) => document.querySelector(link.href)).filter(
-      (section): section is Element => section !== null,
+      (section): section is HTMLElement => section instanceof HTMLElement,
     )
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.find((entry) => entry.isIntersecting)
-        if (visible) setActive(`#${visible.target.id}`)
-      },
-      { rootMargin: "-20% 0px -65% 0px" },
-    )
-    sections.forEach((section) => observer.observe(section))
-    return () => observer.disconnect()
+    const header = headerRef.current
+    if (!header) return
+
+    const root = document.documentElement
+    let clearance = 96
+    let scrollFrame = 0
+
+    const updateActive = () => {
+      let current = "#home"
+      for (const section of sections.slice(1)) {
+        const contentTop =
+          section.getBoundingClientRect().top + parseFloat(getComputedStyle(section).paddingTop)
+        if (contentTop <= clearance + 1) current = `#${section.id}`
+      }
+      setActive(current)
+    }
+
+    const updateClearance = () => {
+      // Height excludes the header's entry translation; top is its fixed inset.
+      clearance = header.offsetHeight + parseFloat(getComputedStyle(header).top) + 16
+      root.style.setProperty("--navbar-clearance", `${clearance}px`)
+      updateActive()
+    }
+
+    const onScroll = () => {
+      if (scrollFrame) return
+      scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = 0
+        updateActive()
+      })
+    }
+
+    updateClearance()
+    const observer = new ResizeObserver(updateClearance)
+    observer.observe(header)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll)
+    window.addEventListener("hashchange", onScroll)
+
+    // Reconcile an initial deep link after measuring the responsive navbar.
+    // Later clicks and history navigation use the browser's native hash scrolling.
+    const initialFrame = requestAnimationFrame(() => {
+      const target = sections.find((section) => `#${section.id}` === window.location.hash)
+      target?.scrollIntoView({ block: "start", behavior: "instant" })
+      updateActive()
+    })
+
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(initialFrame)
+      cancelAnimationFrame(scrollFrame)
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      window.removeEventListener("hashchange", onScroll)
+      root.style.removeProperty("--navbar-clearance")
+    }
   }, [])
 
   useEffect(() => {
@@ -81,6 +129,7 @@ export function Navbar() {
 
   return (
     <motion.header
+      ref={headerRef}
       initial={reduceMotion ? false : { opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}

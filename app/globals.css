@@ -163,9 +163,32 @@
   }
 }
 
+/* Align section content, rather than its padded outer edge, below the navbar. */
+.section-anchor {
+  --section-padding: 3rem;
+  padding-block: var(--section-padding);
+  scroll-margin-top: calc(-1 * var(--section-padding));
+}
+
+/* Keep enough trailing scroll room to align the final section like the others. */
+#contact.section-anchor {
+  min-height: calc(100svh - var(--navbar-clearance, 6rem) + var(--section-padding));
+}
+
+@media (min-width: 64rem) {
+  .section-anchor {
+    --section-padding: 3.5rem;
+  }
+
+  #contact.section-anchor {
+    --section-padding: 4rem;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: var(--navbar-clearance, 6rem);
   }
   * {
     @apply border-border outline-ring/50;

@@ -34,7 +34,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative mx-auto flex min-h-[90vh] max-w-6xl scroll-mt-24 flex-col items-center gap-9 px-6 pt-28 pb-10 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-10 lg:pt-24 lg:pb-12"
+      className="relative mx-auto flex min-h-[90vh] max-w-6xl flex-col items-center gap-9 px-6 pt-28 pb-10 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-10 lg:pt-24 lg:pb-12"
     >
       <motion.div
         variants={container}
@@ -54,9 +54,9 @@ export function Hero() {
           variants={item}
           className="mt-5 max-w-2xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl lg:text-[4.25rem]"
         >
-          Hi, I&apos;m Ruthvik.
+          Hi, I&apos;m Ruthvik Varma Dendukuri.
           <span className="block">
-            I work in{" "}
+            I work across{" "}
             <span className="text-accent">
               <span className="whitespace-nowrap">AI, data</span>{" "}
               <span className="whitespace-nowrap">&amp; software.</span>
@@ -78,8 +78,10 @@ export function Hero() {
           variants={item}
           className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg"
         >
-          I&apos;m a recent graduate with internship experience, drawn to practical
-          problems and work that connects ideas to real needs.
+          I&apos;m a Data Science and AI graduate with internship experience across
+          machine learning, computer vision, data analytics and software
+          development. I&apos;m interested in building practical solutions to
+          real-world problems.
         </motion.p>
 
         <motion.div variants={item} className="mt-7 flex flex-col gap-3 sm:flex-row">
